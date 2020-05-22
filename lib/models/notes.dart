@@ -12,6 +12,7 @@ class Notes {
     });
     return allFilters.toList();
   }
+  List<Note> get notes => myNotes;
 }
 
 final myFinalNotes = Notes(myData);
