@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note/models/note.dart';
 
 import '../themes/theme.dart';
 import '../models/notes.dart';
@@ -10,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> myFilters = myFinalNotes.filters;
+  final List<Note> myNotes = myFinalNotes.myNotes;
   int activatedfilter;
   @override
   void initState() {
@@ -72,6 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: myNotes.length,
+                  itemBuilder: (context, index) => noteCard(index),
+                ),
+              )
             ],
           ),
         ),
@@ -114,6 +122,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SizedBox(width: 15.0),
       ],
+    );
+  }
+
+  Widget noteCard(int index) {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Row(mainAxisSize: MainAxisSize.min,children: <Widget>[
+
+              ],),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
