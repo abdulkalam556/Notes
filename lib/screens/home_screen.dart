@@ -104,10 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       (myFilters[index].length > 5
                           ? myFilters[index].length ~/ 5
                           : 1),
-                  style: TextStyle(
-                      color: Colors.yellowAccent[700],
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  style: myChipUnderline,
                 ),
             ],
           ),
