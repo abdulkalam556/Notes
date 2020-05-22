@@ -29,6 +29,16 @@ final TextStyle myChipUnderline = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+final TextStyle notestitle = GoogleFonts.montserrat(
+  color: Colors.black,
+  fontSize: 19,
+  fontWeight: FontWeight.w500,
+  wordSpacing: 0.2,
+);
+
+final TextStyle notescontent = GoogleFonts.openSans(
+  fontSize: 16,
+);
 ThemeData appTheme = ThemeData(
   primaryColor: Colors.amberAccent,
   visualDensity: VisualDensity.adaptivePlatformDensity,

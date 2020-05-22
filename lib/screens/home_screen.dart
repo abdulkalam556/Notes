@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note/models/note.dart';
+import 'package:intl/intl.dart';
 
 import '../themes/theme.dart';
 import '../models/notes.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.only(top: 32, left: 16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: ListView.builder(
+                  physics: ClampingScrollPhysics(),
                   itemCount: myNotes.length,
                   itemBuilder: (context, index) => noteCard(index),
                 ),
@@ -123,18 +126,103 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget noteCard(int index) {
-    return Card(
-      child: Column(
-        children: <Widget>[
-          Row(
+    return Stack(
+      children: <Widget>[
+        Card(
+          margin: EdgeInsets.only(right: 16.0, top: 16.0, bottom: 8.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
+          shadowColor: Colors.yellowAccent,
+          elevation: 4.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Row(mainAxisSize: MainAxisSize.min,children: <Widget>[
-
-              ],),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ...myNotes[index].tags.map(
+                    (e) {
+                      return Container(
+                        margin: EdgeInsets.all(4.0),
+                        child: Chip(
+                          label: Text('#$e'),
+                        ),
+                      );
+                    },
+                  ),
+                  if (myNotes[index].tags.isEmpty)
+                    SizedBox(
+                      height: 15,
+                    )
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      '${myNotes[index].title}',
+                      style: notestitle,
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Icon(
+                      Icons.date_range,
+                      size: 20,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 8.0,
+                      bottom: 16.0,
+                      right: 16.0,
+                    ),
+                    child: Text(
+                      ' ${DateFormat('d MMM').format(myNotes[index].dateCreated)}',
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 16.0,
+                  bottom: 16.0,
+                  right: 8.0,
+                ),
+                child: Text(
+                  '${myNotes[index].content}',
+                  maxLines: 1,
+                  style: notescontent,
+                ),
+              ),
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              myNotes[index].pinToggle();
+            });
+          },
+                  child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 32.0),
+            child: Align(
+              child: Icon(
+                myNotes[index].ispinned ? Icons.turned_in : Icons.turned_in_not,
+              ),
+              alignment: Alignment.topRight,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
