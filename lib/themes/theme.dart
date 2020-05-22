@@ -11,12 +11,19 @@ final TextStyle appSubheadingNotes = GoogleFonts.montserrat(
   fontSize: 16,
 );
 
-final TextStyle myFilterChipStyle = GoogleFonts.playfairDisplay(
+final TextStyle myChoiceChipStyleOff = GoogleFonts.montserrat(
   color: Colors.grey,
-  fontSize: 20,
+  fontSize: 18,
+);
+
+final TextStyle myChoiceChipStyleOn = GoogleFonts.montserrat(
+  color: Colors.black,
+  fontSize: 19,
+  fontWeight: FontWeight.w500,
+  wordSpacing: 0.2,
 );
 
 ThemeData appTheme = ThemeData(
-  primarySwatch: Colors.blue,
+  primaryColor: Colors.amberAccent,
   visualDensity: VisualDensity.adaptivePlatformDensity,
 );

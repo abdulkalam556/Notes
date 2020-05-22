@@ -14,7 +14,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    myFilters.insert(0, 'All Filters');
+    myFilters.insert(0, 'All Notes');
+    myFilters.insert(1, 'pinned');
     activatedfilter = 0;
   }
 
@@ -58,7 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              
+              SizedBox(height: 20),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ...myFilters.map(
+                      (filter) => filterChip(myFilters.indexOf(filter)),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -66,4 +79,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget filterChip(int index) {
+    bool isSelected = index == activatedfilter ? true : false;
+    return Row(
+      children: <Widget>[
+        InkWell(
+          onTap: () {
+            setState(() {
+              activatedfilter = index;
+            });
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                myFilters[index],
+                style: isSelected ? myChoiceChipStyleOn : myChoiceChipStyleOff,
+              ),
+              if (isSelected)
+                Text(
+                  '_____' *
+                      (myFilters[index].length > 4
+                          ? myFilters[index].length ~/ 4
+                          : 1),
+                  style: TextStyle(
+                      color: Colors.yellowAccent[700],
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+            ],
+          ),
+        ),
+        SizedBox(width: 15.0),
+      ],
+    );
+  }
 }
