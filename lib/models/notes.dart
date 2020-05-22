@@ -6,8 +6,8 @@ class Notes {
   List<String> get filters {
     Set<String> allFilters = {};
     myNotes.forEach((note) {
-      if (note.hashtags.isNotEmpty) {
-        note.hashtags.forEach((e) => allFilters.add(e));
+      if (note.tags.isNotEmpty) {
+        note.tags.forEach((e) => allFilters.add(e));
       }
     });
     return allFilters.toList();
@@ -21,7 +21,7 @@ final List<Note> myData = [
     id: 0,
     title: 'Notes',
     content: 'u can use it in the manner u want',
-    hashtags: Set(),
+    tags: Set(),
     ispinned: true,
     isarchived: false,
   ),
@@ -30,7 +30,7 @@ final List<Note> myData = [
     title: 'Assignment',
     content:
         'green technology assignment deadline is on may 15th complete it early',
-    hashtags: {'work', 'assignment'},
+    tags: {'work', 'assignment'},
     ispinned: false,
     isarchived: false,
   ),
@@ -39,7 +39,7 @@ final List<Note> myData = [
     title: 'Notes App',
     content:
         'all the work and project details regarding my notes app is written here. its private and funky . haha... ',
-    hashtags: {'work', 'project'},
+    tags: {'work', 'project'},
     ispinned: false,
     isarchived: false,
   ),
@@ -48,7 +48,7 @@ final List<Note> myData = [
     title: 'Zoom Meet',
     content:
         'JPMorgan important meet is on may 21st at 3Pm. its important dont miss it',
-    hashtags: {'work', 'intern'},
+    tags: {'work', 'intern'},
     ispinned: false,
     isarchived: false,
   ),
@@ -56,7 +56,7 @@ final List<Note> myData = [
     id: 4,
     title: 'Tap',
     content: 'need to fix the broken tap',
-    hashtags: {'home'},
+    tags: {'home'},
     ispinned: false,
     isarchived: false,
   ),
@@ -64,7 +64,7 @@ final List<Note> myData = [
     id: 5,
     title: 'Silk',
     content: 'Need to bring a chacolate for my sis',
-    hashtags: {'home'},
+    tags: {'home'},
     ispinned: false,
     isarchived: false,
   ),

@@ -23,6 +23,12 @@ final TextStyle myChoiceChipStyleOn = GoogleFonts.montserrat(
   wordSpacing: 0.2,
 );
 
+final TextStyle myChipUnderline = TextStyle(
+  color: Colors.yellowAccent[700],
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+);
+
 ThemeData appTheme = ThemeData(
   primaryColor: Colors.amberAccent,
   visualDensity: VisualDensity.adaptivePlatformDensity,

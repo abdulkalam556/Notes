@@ -4,14 +4,14 @@ class Note {
   final int id;
   final String title;
   final String content;
-  Set<String> hashtags;
+  Set<String> tags;
   bool ispinned;
   bool isarchived;
   Note({
     @required this.id,
     @required this.title,
     @required this.content,
-    @required this.hashtags,
+    @required this.tags,
     @required this.ispinned,
     @required this.isarchived,
   });
