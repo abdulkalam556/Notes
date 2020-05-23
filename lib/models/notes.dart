@@ -1,8 +1,12 @@
+import 'package:intl/intl.dart';
+
 import 'package:note/models/note.dart';
 
 class Notes {
   final List<Note> myNotes;
+
   Notes(this.myNotes);
+
   List<String> get filters {
     Set<String> allFilters = {};
     myNotes.forEach((note) {
@@ -12,7 +16,48 @@ class Notes {
     });
     return allFilters.toList();
   }
-  List<Note> get notes => myNotes;
+
+  List<Note> get notes =>
+      myNotes..sort((b, a) => a.dateCreated.compareTo(b.dateCreated));
+
+  Map<int, String> notesRequiredDates({String filter = 'All Notes'}) {
+    Map<int, String> dateSet = {};
+    var tempNotes = this.getNotes(filter);
+    String tempDate = DateFormat('MMM yyyy').format(tempNotes[0].dateCreated);
+    dateSet[0] = tempDate;
+    String tempDate2;
+    for (var i = 1; i < tempNotes.length; i++) {
+      tempDate2 = DateFormat('MMM yyyy').format(tempNotes[i].dateCreated);
+      if (tempDate != tempDate2) {
+        dateSet[i] = tempDate2;
+        tempDate = tempDate2;
+      }
+    }
+
+    return dateSet;
+  }
+
+  List<Note> getNotes(String filter) {
+    if (filter == 'All Notes') {
+      return this.notes;
+    } else if (filter == 'pinned') {
+      List<Note> pinnedNotes = [];
+      this.notes.forEach((e) {
+        if (e.ispinned) {
+          pinnedNotes.add(e);
+        }
+      });
+      return pinnedNotes;
+    } else {
+      List<Note> filteredNotes = [];
+      this.notes.forEach((e) {
+        if (e.tags.contains(filter)) {
+          filteredNotes.add(e);
+        }
+      });
+      return filteredNotes;
+    }
+  }
 }
 
 final myFinalNotes = Notes(myData);
@@ -51,7 +96,13 @@ final List<Note> myData = [
     title: 'Zoom Meet',
     content:
         'JPMorgan important meet is on may 21st at 3Pm. its important dont miss it',
-    dateCreated: DateTime.now(),
+    dateCreated: DateTime.now().add(
+      Duration(
+        days: 23,
+        hours: 3,
+        minutes: 30,
+      ),
+    ),
     tags: {'work', 'intern'},
     ispinned: true,
     isarchived: false,
@@ -60,7 +111,13 @@ final List<Note> myData = [
     id: 4,
     title: 'Tap',
     content: 'need to fix the broken tap',
-    dateCreated: DateTime.now(),
+    dateCreated: DateTime.now().add(
+      Duration(
+        days: 15,
+        hours: 3,
+        minutes: 30,
+      ),
+    ),
     tags: {},
     ispinned: false,
     isarchived: false,

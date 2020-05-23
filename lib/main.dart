@@ -14,7 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Notes',
       theme: appTheme,
-      home: HomeScreen(),
+      home: Scaffold(
+        body: HomeScreen(),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            backgroundColor: Colors.yellow[700],
+            onPressed: () {}),
+      ),
     );
   }
 }

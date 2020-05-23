@@ -12,8 +12,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> myFilters = myFinalNotes.filters;
-  final List<Note> myNotes = myFinalNotes.myNotes;
+  List<Note> myNotes = myFinalNotes.notes;
+  Map<int, String> myDates = myFinalNotes.notesRequiredDates();
   int activatedfilter;
+
+  void setNotesAndDates() {
+    myNotes = myFinalNotes.getNotes(myFilters[activatedfilter]);
+    myDates =
+        myFinalNotes.notesRequiredDates(filter: myFilters[activatedfilter]);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,10 +85,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  physics: ClampingScrollPhysics(),
-                  itemCount: myNotes.length,
-                  itemBuilder: (context, index) => noteCard(index),
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  separatorBuilder: (context, index) =>
+                      myDates.containsKey(index)
+                          ? dateCard(myDates[index])
+                          : Container(),
+                  itemCount: myNotes.length + 1,
+                  itemBuilder: (context, index) =>
+                      index == 0 ? Container() : noteCard(index - 1),
                 ),
               )
             ],
@@ -98,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             setState(() {
               activatedfilter = index;
+              setNotesAndDates();
             });
           },
           child: Column(
@@ -110,12 +124,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: isSelected ? myChoiceChipStyleOn : myChoiceChipStyleOff,
               ),
               if (isSelected)
-                Text(
-                  '_____' *
-                      (myFilters[index].length > 5
-                          ? myFilters[index].length ~/ 5
-                          : 1),
-                  style: myChipUnderline,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Text(
+                    '_____' *
+                        (myFilters[index].length > 5
+                            ? myFilters[index].length ~/ 5
+                            : 1),
+                    style: myChipUnderline,
+                  ),
                 ),
             ],
           ),
@@ -127,6 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget noteCard(int index) {
     return Stack(
+      key: Key(myNotes[index].title),
       children: <Widget>[
         Card(
           margin: EdgeInsets.only(right: 16.0, top: 16.0, bottom: 8.0),
@@ -145,22 +163,29 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  ...myNotes[index].tags.map(
-                    (e) {
-                      return Container(
-                        margin: EdgeInsets.all(4.0),
-                        child: Chip(
-                          label: Text('#$e'),
-                        ),
-                      );
-                    },
-                  ),
+                  if (myFilters[activatedfilter] == 'All Notes' ||
+                      myFilters[activatedfilter] == 'pinned')
+                    ...myNotes[index].tags.map(
+                      (e) {
+                        return Container(
+                          margin: EdgeInsets.all(4.0),
+                          child: Chip(
+                            label: Text('#$e'),
+                          ),
+                        );
+                      },
+                    ),
                   if (myNotes[index].tags.isEmpty)
                     SizedBox(
-                      height: 15,
-                    )
+                      height: 25,
+                    ),
                 ],
               ),
+              if (myFilters[activatedfilter] != 'All Notes' &&
+                  myFilters[activatedfilter] != 'pinned')
+                SizedBox(
+                  height: 30,
+                ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -212,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
               myNotes[index].pinToggle();
             });
           },
-                  child: Padding(
+          child: Padding(
             padding: const EdgeInsets.only(top: 8.0, right: 32.0),
             child: Align(
               child: Icon(
@@ -223,6 +248,27 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget dateCard(String dateString) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 10.0),
+            height: 10,
+            width: 10,
+            decoration: BoxDecoration(
+                color: Colors.yellowAccent[700], shape: BoxShape.circle),
+          ),
+          Text(
+            dateString,
+            style: dateStringStyle,
+          ),
+        ],
+      ),
     );
   }
 }

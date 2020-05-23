@@ -39,7 +39,13 @@ final TextStyle notestitle = GoogleFonts.montserrat(
 final TextStyle notescontent = GoogleFonts.openSans(
   fontSize: 16,
 );
+
+final TextStyle dateStringStyle = GoogleFonts.openSans(
+  fontWeight: FontWeight.w400,
+  wordSpacing: 0.5,
+  color: Colors.black87,
+);
+
 ThemeData appTheme = ThemeData(
-  primaryColor: Colors.amberAccent,
   visualDensity: VisualDensity.adaptivePlatformDensity,
 );

@@ -18,7 +18,9 @@ class Note {
     @required this.ispinned,
     @required this.isarchived,
   });
+  
 
   void pinToggle() => ispinned = !ispinned ;
+
 }
 
